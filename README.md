@@ -1,53 +1,37 @@
-# Foundral Investment Atlas — v4.2 (Integration Layer ZIP)
+# Foundral Custom GPT YAML Pack — v1.0.0
 
-This ZIP is a **repo skeleton + runnable prototype** that turns the v3 “TTD vs ENPH” decision into an operational system:
-**data → signals → score → report → (optional) alerts**.
+This ZIP contains a **single Custom GPT spec in YAML**, plus versioning guidance and sample requests.
+It is designed to reproduce the Foundral workflow you used in-session:
 
-> Educational use only. Not financial advice.
+- **OPS Track** outputs (playbooks, checklists, cross-post copy, Magic HTML mirrors)
+- **Book Track** outputs (manuscript + references + KDP/Heyzine/Gumroad assets)
 
----
+## What's inside
 
-## Quick Start (macOS)
+- `gpt/foundral_book_review_architect.yaml` — the Custom GPT definition (YAML)
+- `gpt/prompt_sequence_registry.yaml` — prompt sequencing + reusable blocks
+- `templates/` — reusable text blocks (disclaimers, brief template)
+- `samples/INTC/` — sample request + output manifest for the Intel book flow
+- `samples/BEAM/` — sample request + output manifest for the BEAM vs peers flow
+- `GUIDE_VERSIONING.md` — how to increment versions cleanly
+- `CHANGELOG.md` — release log (start here)
+- `LICENSE.txt` — permissive internal license note
 
-```bash
-cd foundral-investment-atlas-v4.2
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+## How to use (fast)
 
-# Create your editable config (gitignored)
-cp config/config.example.yaml config/config.yaml
+1) Copy the YAML into your Custom GPT system config:
+- Start with `gpt/foundral_book_review_architect.yaml`
+- Add `gpt/prompt_sequence_registry.yaml` as a companion “policy + prompt blocks” reference
 
-# Run the daily pipeline (uses sample data if live fetch fails)
-bash scripts/run_daily.sh
+2) Start a new project using `templates/PROJECT_BRIEF_TEMPLATE.md`.
 
-# Open the report
-open site/report.html
-```
+3) Follow the phase order in the prompt registry. Don’t skip phases.
 
-### What you should see
-- `site/report.html` updated (mobile-friendly Magic HTML)
-- `data/logs/runs.jsonl` appended (audit trail)
-- `site/history/report_YYYYMMDD_HHMMSS.html` archived
+## Output discipline (important)
 
----
+- Book files go to: `foundral_<topic>_book_vX.Y.Z.zip`
+- Ops files go to:  `foundral_org_ops_index_vX.Y.Z.zip`
 
-## Live data options (optional)
-This prototype includes **sample data** so it runs offline.
+Never mix raw manuscript drafts into the OPS track.
 
-If you want live prices:
-- Ensure internet access.
-- `scripts/fetch_prices.py` uses `yfinance` by default.
-
-For macro proxy (rates regime):
-- v4.2 uses a **manual hint** in config: `macro_regime_hint` (CUTS/HIKES/STICKY/UNKNOWN).
-- v4.2 can wire auto-regime detection.
-
----
-
-## Repo Map (what matters)
-- `docs/ATLAS_CANON_v3.md` — frozen decision canon (don’t edit without bumping)
-- `config/config.yaml` — thresholds + weights + notifications
-- `scripts/compute_signals.py` — core: RS, drawdown, regime bonus, scores
-- `scripts/build_report.py` — generates Magic HTML report
-- `scripts/notify.py` — optional Slack webhook notify
+**Created:** 2026-01-07

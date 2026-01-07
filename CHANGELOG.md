@@ -1,17 +1,13 @@
-# CHANGELOG
+# Changelog — Foundral Custom GPT YAML Pack
 
-## v4.2 — Robust price ingestion + signal parsing
-- Fixed yfinance MultiIndex edge cases (prevents malformed CSV)
-- Hardened signal computation by coercing Close to numeric and dropping junk rows
-- Version bumps and docs updates
+## v1.0.0 (2026-01-07)
+- Initial Custom GPT definition in YAML
+- Prompt sequencing registry + reusable disclaimer blocks
+- Templates for brief + disclaimers + README
+- Samples for INTC and BEAM (requests + output manifests)
 
+## v1.0.1 (2026-01-07)
+- Added one-page Publish Tomorrow Runbook (MD + Magic HTML)
 
-## v4.1 — Integration Layer ZIP
-- Repo skeleton (docs/config/scripts/data/site/ops)
-- Working pipeline: (sample/live) prices → signals → score → Magic HTML report
-- Append-only JSONL logging
-- Report archiving in `site/history/`
-- Optional Slack webhook notify
-
-### Docs
-- Added release notes, config walkthrough, and operational guide (dev runbook)
+## v1.0.2 (2026-01-07)
+- Added Actionability Upgrade scanner (MD + Magic HTML)

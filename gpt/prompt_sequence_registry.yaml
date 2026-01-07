@@ -1,0 +1,37 @@
+prompt_sequence:
+  version: "1.0.0"
+  intent:
+    - new_book
+    - sector_review
+    - comparative_atlas
+  phase_order:
+    - phase_0_scope_guardrails
+    - phase_1_core_framing
+    - phase_2_governing_framework
+    - phase_3_chapter_blueprints
+    - phase_4_research_and_signals
+    - phase_5_technical_structure
+    - phase_6_writing_passes
+    - phase_7_packaging_and_ops
+    - phase_8_post_publish_loop
+
+  guardrails:
+    enforce_non_advisory_language: true
+    enforce_ops_vs_book_separation: true
+    max_sections_default: 10
+    max_charts_per_chapter: 3
+
+  reusable_blocks:
+    disclaimer_financial: |
+      Educational / informational only. No part of this work is investment advice or a recommendation
+      to buy or sell securities. Markets involve risk, including loss of principal. Do your own research
+      and consult licensed professionals.
+
+    chapter_template: |
+      Hook → Context → Evidence → Counterpoints → Takeaways (5 bullets) → What remains unknowable
+
+    coherence_checks:
+      - overlap_scan
+      - gap_scan
+      - redundancy_scan
+      - tone_scan (remove hype/certainty)

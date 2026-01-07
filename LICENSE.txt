@@ -1,0 +1,4 @@
+Internal use license (permissive)
+
+You may copy, modify, and reuse this pack across Foundral projects.
+If you publish the spec publicly, remove any personal identifiers and verify platform policies.
