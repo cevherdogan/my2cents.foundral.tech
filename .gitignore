@@ -1,0 +1,85 @@
+# =========================
+# Python / Virtual Env
+# =========================
+.venv/
+venv/
+ENV/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# =========================
+# Secrets / Local Config
+# =========================
+config/config.yaml
+config/*.local.yaml
+.env
+.env.*
+
+# =========================
+# Runtime Data (optional commit)
+# =========================
+# Raw fetched data (can be large / noisy)
+data/raw/
+
+# Derived data (commit only if you want snapshots)
+# data/derived/
+
+# Logs (append-only, grows fast)
+data/logs/
+
+# =========================
+# Reports (policy-based)
+# =========================
+# Latest report is optional to commit
+# site/report.html
+
+# Historical reports usually ignored
+site/history/
+
+# =========================
+# Packaging / Builds
+# =========================
+*.zip
+*.tar.gz
+
+# =========================
+# Temporary / Scratch
+# =========================
+tmp/
+temp/
+scratch/
+.cache/
+
+# =========================
+# Jupyter / Experiments
+# =========================
+.ipynb_checkpoints/
+*.ipynb
+
+# =========================
+# Node / Frontend (future-proof)
+# =========================
+node_modules/
+dist/
+build/
+
+# =========================
+# MacOS Python artifacts
+# =========================
+.python-version
+

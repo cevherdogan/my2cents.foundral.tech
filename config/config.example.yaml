@@ -1,0 +1,34 @@
+project:
+  name: "Foundral Investment Atlas"
+  version: "v4.1"
+  timezone: "America/New_York"
+
+universe:
+  tickers: [TTD, ENPH]
+
+data:
+  use_live_fetch: true
+  lookback_days: 365
+  output_dir: "data"
+  site_dir: "site"
+
+scoring:
+  weights:
+    trend: 0.35
+    survival: 0.35
+    macro: 0.20
+    events: 0.10
+  macro_regime_hint: "UNKNOWN"  # CUTS | HIKES | STICKY | UNKNOWN
+  regime_bonus:
+    CUTS:   {TTD: 0.20, ENPH: 0.35}
+    HIKES:  {TTD: 0.35, ENPH: 0.05}
+    STICKY: {TTD: 0.30, ENPH: 0.10}
+    UNKNOWN:{TTD: 0.15, ENPH: 0.15}
+
+thresholds:
+  drawdown_breach: 0.45
+  pick_flip_margin: 0.10
+
+notifications:
+  enabled: false
+  slack_webhook_url: ""

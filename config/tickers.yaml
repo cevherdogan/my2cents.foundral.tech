@@ -1,0 +1,3 @@
+tickers:
+  core: [TTD, ENPH]
+  optional_peers: [IOT, SYM, DOCS]

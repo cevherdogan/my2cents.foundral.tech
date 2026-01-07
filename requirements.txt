@@ -1,0 +1,4 @@
+pyyaml>=6.0.1
+pandas>=2.2.0
+yfinance>=0.2.36
+requests>=2.31.0

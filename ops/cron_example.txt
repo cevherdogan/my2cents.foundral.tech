@@ -1,0 +1,2 @@
+# Example cron (runs 8:15am ET)
+# 15 8 * * * cd /path/to/foundral-investment-atlas-v4.1 && bash scripts/run_daily.sh
