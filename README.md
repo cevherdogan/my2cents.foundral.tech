@@ -1,37 +1,32 @@
-# Foundral Custom GPT YAML Pack — v1.0.0
+# Foundral — Organizational & Operational Index (v1.0)
 
-This ZIP contains a **single Custom GPT spec in YAML**, plus versioning guidance and sample requests.
-It is designed to reproduce the Foundral workflow you used in-session:
+This package is intentionally separate from any single book or publication.
 
-- **OPS Track** outputs (playbooks, checklists, cross-post copy, Magic HTML mirrors)
-- **Book Track** outputs (manuscript + references + KDP/Heyzine/Gumroad assets)
+Purpose:
+- Act as a living index of experiments, frameworks, and initiatives
+- Keep organizational, operational, and regenerative work distinct from book tracks
+- Provide a calm, extensible structure for Foundral-related efforts
 
-## What's inside
+This is infrastructure, not content.
 
-- `gpt/foundral_book_review_architect.yaml` — the Custom GPT definition (YAML)
-- `gpt/prompt_sequence_registry.yaml` — prompt sequencing + reusable blocks
-- `templates/` — reusable text blocks (disclaimers, brief template)
-- `samples/INTC/` — sample request + output manifest for the Intel book flow
-- `samples/BEAM/` — sample request + output manifest for the BEAM vs peers flow
-- `GUIDE_VERSIONING.md` — how to increment versions cleanly
-- `CHANGELOG.md` — release log (start here)
-- `LICENSE.txt` — permissive internal license note
+## New in v1.1
+- Added `ops/` directory for operational artifacts (separate from book/publishing tracks).
+- Added Magic HTML prerequisite guide: `ops/foundral_prerequisites_magic.html`.
 
-## How to use (fast)
+## What's included (expanded in v1.2)
+- Operational prerequisites (Magic HTML + quickstart)
+- Publishing & distribution copy (Substack/Medium/Gumroad/LinkedIn)
+- Series governance (Substack series map + Comparative Atlas signature rules)
+- Minimal Foundral landing page (HTML)
 
-1) Copy the YAML into your Custom GPT system config:
-- Start with `gpt/foundral_book_review_architect.yaml`
-- Add `gpt/prompt_sequence_registry.yaml` as a companion “policy + prompt blocks” reference
+## v1.2.1 additions
+- Canonical links placeholder table
+- End-to-end publishing checklist
 
-2) Start a new project using `templates/PROJECT_BRIEF_TEMPLATE.md`.
+## v1.2.2
+- Added Magic HTML mirrors for OPS Markdown docs
+- Added `ops_magic_index.html` for navigation
 
-3) Follow the phase order in the prompt registry. Don’t skip phases.
-
-## Output discipline (important)
-
-- Book files go to: `foundral_<topic>_book_vX.Y.Z.zip`
-- Ops files go to:  `foundral_org_ops_index_vX.Y.Z.zip`
-
-Never mix raw manuscript drafts into the OPS track.
-
-**Created:** 2026-01-07
+## v1.2.3 additions (January 7, 2026)
+- docs/new_book_checklist.md + .html (repeatable checklist)
+- docs/beam_book_blueprint.md + .html (book blueprint template, BEAM-focused)
