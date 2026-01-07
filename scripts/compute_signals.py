@@ -13,10 +13,22 @@ def load_latest(raw_dir: Path, ticker: str) -> pd.DataFrame:
     p = raw_dir / f"latest_{ticker}.csv"
     if not p.exists():
         raise FileNotFoundError(f"Missing {p}")
-    df = pd.read_csv(p)
-    df["Date"] = pd.to_datetime(df["Date"])
-    return df.sort_values("Date")
 
+    df = pd.read_csv(p)
+
+    # Normalize Date
+    if "Date" in df.columns:
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+
+    # Normalize Close (robust against junk rows like Close='TTD')
+    if "Close" not in df.columns:
+        raise KeyError(f"'Close' column not found in {p}. Columns={list(df.columns)}")
+
+    df["Close"] = pd.to_numeric(df["Close"], errors="coerce")
+
+    # Drop any junk rows
+    df = df.dropna(subset=["Date", "Close"]).sort_values("Date")
+    return df[["Date", "Close"]]
 def ret_n(df: pd.DataFrame, n: int) -> float:
     if len(df) < n+1:
         n = max(1, len(df)-1)

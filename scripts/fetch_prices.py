@@ -10,14 +10,44 @@ def load_config(path: Path) -> dict:
 
 def fetch_yfinance(ticker: str, lookback_days: int) -> pd.DataFrame:
     import yfinance as yf
-    df = yf.download(ticker, period=f"{lookback_days}d", interval="1d", auto_adjust=False, progress=False)
+
+    df = yf.download(
+        ticker,
+        period=f"{lookback_days}d",
+        interval="1d",
+        auto_adjust=False,
+        progress=False,
+        group_by="column",
+    )
     if df is None or df.empty:
         raise RuntimeError(f"No data returned for {ticker}")
-    df = df.reset_index()
-    df = df.rename(columns={"Close":"Close"})
-    df = df[["Date","Close"]].dropna()
-    return df
 
+    # Handle MultiIndex columns (can happen depending on yfinance/pandas versions)
+    if isinstance(df.columns, pd.MultiIndex):
+        # Prefer selecting the ticker slice if present
+        if ticker in df.columns.get_level_values(-1):
+            try:
+                df = df.xs(ticker, axis=1, level=-1)
+            except Exception:
+                df.columns = df.columns.get_level_values(0)
+        else:
+            df.columns = df.columns.get_level_values(0)
+
+    df = df.reset_index()
+
+    # Ensure 'Close' exists
+    if "Close" not in df.columns:
+        close_candidates = [c for c in df.columns if str(c).lower() == "close"]
+        if close_candidates:
+            df = df.rename(columns={close_candidates[0]: "Close"})
+        else:
+            raise KeyError(f"'Close' column not found for {ticker}. Columns={list(df.columns)}")
+
+    df = df[["Date", "Close"]].dropna()
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+    df["Close"] = pd.to_numeric(df["Close"], errors="coerce")
+    df = df.dropna(subset=["Date", "Close"])
+    return df
 def load_sample(raw_dir: Path, ticker: str) -> pd.DataFrame:
     p = raw_dir / f"sample_{ticker}.csv"
     if not p.exists():

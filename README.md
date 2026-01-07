@@ -1,4 +1,4 @@
-# Foundral Investment Atlas — v4.1 (Integration Layer ZIP)
+# Foundral Investment Atlas — v4.2 (Integration Layer ZIP)
 
 This ZIP is a **repo skeleton + runnable prototype** that turns the v3 “TTD vs ENPH” decision into an operational system:
 **data → signals → score → report → (optional) alerts**.
@@ -10,7 +10,7 @@ This ZIP is a **repo skeleton + runnable prototype** that turns the v3 “TTD vs
 ## Quick Start (macOS)
 
 ```bash
-cd foundral-investment-atlas-v4.1
+cd foundral-investment-atlas-v4.2
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -40,7 +40,7 @@ If you want live prices:
 - `scripts/fetch_prices.py` uses `yfinance` by default.
 
 For macro proxy (rates regime):
-- v4.1 uses a **manual hint** in config: `macro_regime_hint` (CUTS/HIKES/STICKY/UNKNOWN).
+- v4.2 uses a **manual hint** in config: `macro_regime_hint` (CUTS/HIKES/STICKY/UNKNOWN).
 - v4.2 can wire auto-regime detection.
 
 ---

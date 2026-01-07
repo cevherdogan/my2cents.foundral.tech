@@ -1,6 +1,6 @@
 project:
   name: "Foundral Investment Atlas"
-  version: "v4.1"
+  version: "v4.2"
   timezone: "America/New_York"
 
 universe:
@@ -23,7 +23,7 @@ scoring:
     CUTS:   {TTD: 0.20, ENPH: 0.35}
     HIKES:  {TTD: 0.35, ENPH: 0.05}
     STICKY: {TTD: 0.30, ENPH: 0.10}
-    UNKNOWN: {TTD: 0.15, ENPH: 0.15}
+    UNKNOWN:{TTD: 0.15, ENPH: 0.15}
 
 thresholds:
   drawdown_breach: 0.45
