@@ -6,3 +6,6 @@
 - Append-only JSONL logging
 - Report archiving in `site/history/`
 - Optional Slack webhook notify
+
+### Docs
+- Added release notes, config walkthrough, and operational guide (dev runbook)

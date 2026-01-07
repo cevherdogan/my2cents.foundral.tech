@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Foundral Atlas v4.1 — Operational Guide</title>
+<style>
+:root{
+  --bg:#050a18;--panel:rgba(255,255,255,0.06);--line:rgba(255,255,255,0.12);
+  --text:rgba(255,255,255,0.92);--muted:rgba(255,255,255,0.65);--accent:#45b7ff;
+  --shadow:0 22px 60px rgba(0,0,0,0.38);--radius:18px;--radius2:14px;
+  --mono:ui-monospace, Menlo, Monaco, Consolas, monospace;--sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--sans);color:var(--text);
+background:radial-gradient(1000px 600px at 15% 10%, rgba(69,183,255,0.18), transparent 60%),
+radial-gradient(900px 700px at 50% 90%, rgba(255,209,102,0.10), transparent 62%),var(--bg);}
+.wrap{max-width:980px;margin:0 auto;padding:18px 14px 56px}
+.hero{border:1px solid var(--line);border-radius:var(--radius);
+background:linear-gradient(135deg, rgba(69,183,255,0.18), rgba(255,255,255,0.05));
+box-shadow:var(--shadow);padding:16px}
+h1{margin:0 0 6px;font-size:20px}
+.sub{margin:0;color:var(--muted);font-size:13.6px;line-height:1.65}
+.section{margin-top:12px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);box-shadow:var(--shadow);overflow:hidden}
+.section header{padding:12px 14px;background:rgba(0,0,0,0.22);border-bottom:1px solid rgba(255,255,255,0.10);
+display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+.section header h2{margin:0;font-size:14.8px}
+.section header span{font-size:12px;color:var(--muted)}
+.section .body{padding:14px;display:none}
+.section.open .body{display:block}
+pre{margin:10px 0 0;padding:12px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.10);border-radius:14px;overflow:auto;
+font-family:var(--mono);font-size:12.4px;line-height:1.55}
+a{color:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Foundral Investment Atlas v4.1 — Operational Guide</h1>
+    <p class="sub">Mobile-first runbook: how to configure, run, validate, automate, and release with tags.</p>
+  </div>
+
+  <section class="section open">
+    <header><h2>1) Configure</h2><span>config.yaml</span></header>
+    <div class="body">
+      <pre>cp config/config.example.yaml config/config.yaml</pre>
+      <pre># Key fields
+data.use_live_fetch: true|false
+scoring.macro_regime_hint: CUTS|HIKES|STICKY|UNKNOWN
+scoring.weights: trend/survival/macro/events
+thresholds: drawdown_breach / pick_flip_margin
+notifications: enabled + slack_webhook_url</pre>
+    </div>
+  </section>
+
+  <section class="section open">
+    <header><h2>2) Run locally</h2><span>macOS</span></header>
+    <div class="body">
+      <pre>python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+bash scripts/run_daily.sh</pre>
+      <pre>open site/report.html</pre>
+    </div>
+  </section>
+
+  <section class="section open">
+    <header><h2>3) Validate outputs</h2><span>sanity checks</span></header>
+    <div class="body">
+      <pre>site/report.html
+data/derived/latest_signals.json
+data/logs/runs.jsonl
+site/history/report_*.html</pre>
+    </div>
+  </section>
+
+  <section class="section open">
+    <header><h2>4) Release: commit + tag + push</h2><span>Git</span></header>
+    <div class="body">
+      <pre>git add .
+git commit -m "v4.1: integration layer prototype (TTD vs ENPH)"
+
+git tag -a v4.1 -m "Foundral Investment Atlas v4.1"
+git push -u origin main
+git push origin --tags</pre>
+      <p class="sub">If you haven't set a remote yet:</p>
+      <pre>git remote add origin &lt;YOUR_GIT_URL&gt;
+git branch -M main</pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <header><h2>5) Automate daily</h2><span>GitHub Actions</span></header>
+    <div class="body">
+      <pre># Put this file in:
+.github/workflows/atlas.yml
+
+# Start from:
+ops/github_actions_workflow.yml</pre>
+      <p class="sub">For secrets: keep config out of git; inject via GitHub Secrets in the workflow (v4.2+).</p>
+    </div>
+  </section>
+
+  <p class="sub" style="margin-top:12px;color:rgba(255,255,255,0.55)">
+    Educational only. Not financial advice.
+  </p>
+</div>
+<script>
+document.querySelectorAll(".section header").forEach(h=>{
+  h.addEventListener("click",()=>h.parentElement.classList.toggle("open"));
+});
+</script>
+</body>
+</html>
