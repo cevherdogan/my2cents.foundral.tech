@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Release Notes — Foundral Investment Atlas v4.1</title>
+  <style>
+:root{--bg:#0b1220;--card:rgba(15,27,51,.82);--text:#eaf0ff;--muted:#a9b6d5;--line:rgba(255,255,255,.12);
+--accent:#7dd3fc;--accent2:#a78bfa;}
+*{box-sizing:border-box}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+background:radial-gradient(1200px 600px at 16% -10%, rgba(125,211,252,.22), transparent 60%),
+radial-gradient(900px 520px at 110% 12%, rgba(167,139,250,.18), transparent 55%), var(--bg);
+color:var(--text);line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 64px}
+.hero{border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg, rgba(125,211,252,.18), rgba(167,139,250,.14));
+padding:18px 16px;margin:10px 0 16px}
+.hero h1{margin:0 0 6px;font-size:1.55rem}
+.meta{color:var(--muted);font-size:.95rem}
+.card{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:16px;margin:14px 0}
+h2{margin:18px 0 8px;font-size:1.2rem}
+h3{margin:14px 0 6px;font-size:1.05rem}
+p{margin:10px 0;color:var(--text)}
+ul,ol{padding-left:22px}
+li{margin:6px 0}
+blockquote{margin:10px 0;padding:10px 12px;border-left:3px solid var(--accent);background:rgba(125,211,252,.08);
+border-radius:12px}
+code{background:rgba(0,0,0,.25);border:1px solid var(--line);padding:2px 6px;border-radius:8px}
+pre{background:rgba(0,0,0,.25);border:1px solid var(--line);padding:12px;border-radius:12px;overflow:auto}
+a{color:var(--accent)}
+hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+.footer{color:var(--muted);font-size:.9rem;margin-top:18px}
+.tableline{white-space:pre-wrap}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>Release Notes — Foundral Investment Atlas v4.1</h1>
+      <div class="meta">Foundral • Magic HTML mirror • docs/RELEASE_NOTES_v4_1.md • 2026-01-07 17:13</div>
+    </div>
+    <div class="card">
+      <h1>Release Notes — Foundral Investment Atlas v4.1</h1>
+<p><strong>Release name:</strong> Integration Layer ZIP (TTD vs ENPH)</p>
+<p><strong>Status:</strong> Runnable prototype (offline-safe with sample data; live fetch optional)</p>
+<p><strong>Primary artifact:</strong> `site/report.html` (Magic HTML daily brief)</p>
+<p><strong>Audit trail:</strong> `data/logs/runs.jsonl` (append-only)</p>
+<p>---</p>
+<h2>What shipped</h2>
+<h3>1) Runnable daily pipeline</h3>
+<ul>
+<li>Fetch prices (live via `yfinance` or sample fallback)</li>
+<li>Persist `data/raw/latest_TTD.csv` and `data/raw/latest_ENPH.csv`</li>
+<li>Save macro regime hint in `data/derived/macro_latest.json`</li>
+<li>Compute signals + scores in `data/derived/latest_signals.json`</li>
+<li>Build Magic HTML daily report at `site/report.html`</li>
+<li>Archive report copies in `site/history/`</li>
+</ul>
+<h3>2) Transparent scoring (editable)</h3>
+<ul>
+<li>Relative strength (20d / 60d)</li>
+<li>6-month drawdown proxy (126 trading days)</li>
+<li>Rate-regime bonus (manual hint for v4.1)</li>
+<li>Confidence heuristic based on score margin</li>
+</ul>
+<h3>3) Optional notification hook</h3>
+<ul>
+<li>Slack webhook support via `scripts/notify.py` (disabled by default)</li>
+</ul>
+<p>---</p>
+<h2>Known limitations (by design in v4.1)</h2>
+<ul>
+<li><strong>Macro regime is manual</strong> (`macro_regime_hint`). (v4.2 will auto-detect.)</li>
+<li>Earnings calendar and “guide shock” detection are placeholders. (v4.3.)</li>
+<li>Scoring normalization is intentionally simple (audit-first, not ML-first).</li>
+</ul>
+<p>---</p>
+<h2>Upgrade path</h2>
+<ul>
+<li><strong>v4.2</strong>: auto rate-regime detection (2Y/10Y or FFR proxy)</li>
+<li><strong>v4.3</strong>: earnings calendar + post-earnings gap alerts</li>
+<li><strong>v4.4</strong>: expand universe while keeping TTD/ENPH as the decision core</li>
+</ul>
+<p>---</p>
+<h2>Safety note</h2>
+<p>This is an educational workflow template and is <strong>not</strong> financial advice.</p>
+    </div>
+    <div class="footer">Generated from Markdown. Edit the <code>.md</code> file and regenerate.</div>
+  </div>
+</body>
+</html>

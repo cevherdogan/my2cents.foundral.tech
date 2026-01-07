@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Config Walkthrough (Dev/Ops) — v4.1</title>
+  <style>
+:root{--bg:#0b1220;--card:rgba(15,27,51,.82);--text:#eaf0ff;--muted:#a9b6d5;--line:rgba(255,255,255,.12);
+--accent:#7dd3fc;--accent2:#a78bfa;}
+*{box-sizing:border-box}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+background:radial-gradient(1200px 600px at 16% -10%, rgba(125,211,252,.22), transparent 60%),
+radial-gradient(900px 520px at 110% 12%, rgba(167,139,250,.18), transparent 55%), var(--bg);
+color:var(--text);line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 64px}
+.hero{border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg, rgba(125,211,252,.18), rgba(167,139,250,.14));
+padding:18px 16px;margin:10px 0 16px}
+.hero h1{margin:0 0 6px;font-size:1.55rem}
+.meta{color:var(--muted);font-size:.95rem}
+.card{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:16px;margin:14px 0}
+h2{margin:18px 0 8px;font-size:1.2rem}
+h3{margin:14px 0 6px;font-size:1.05rem}
+p{margin:10px 0;color:var(--text)}
+ul,ol{padding-left:22px}
+li{margin:6px 0}
+blockquote{margin:10px 0;padding:10px 12px;border-left:3px solid var(--accent);background:rgba(125,211,252,.08);
+border-radius:12px}
+code{background:rgba(0,0,0,.25);border:1px solid var(--line);padding:2px 6px;border-radius:8px}
+pre{background:rgba(0,0,0,.25);border:1px solid var(--line);padding:12px;border-radius:12px;overflow:auto}
+a{color:var(--accent)}
+hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+.footer{color:var(--muted);font-size:.9rem;margin-top:18px}
+.tableline{white-space:pre-wrap}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>Config Walkthrough (Dev/Ops) — v4.1</h1>
+      <div class="meta">Foundral • Magic HTML mirror • docs/CONFIG_WALKTHROUGH_v4_1.md • 2026-01-07 17:13</div>
+    </div>
+    <div class="card">
+      <h1>Config Walkthrough (Dev/Ops) — v4.1</h1>
+<p>File location:</p>
+<ul>
+<li>Template: `config/config.example.yaml`</li>
+<li>Your live config (gitignored): `config/config.yaml`</li>
+</ul>
+<p>---</p>
+<h2>Step 1 — Create your config</h2>
+<pre><code>
+cp config/config.example.yaml config/config.yaml
+</code></pre>
+<p>---</p>
+<h2>Step 2 — Set data behavior</h2>
+<pre><code>
+data:
+  use_live_fetch: true
+  lookback_days: 365
+  output_dir: &quot;data&quot;
+  site_dir: &quot;site&quot;
+</code></pre>
+<p><strong>Notes</strong></p>
+<ul>
+<li>If `use_live_fetch: true` but live fetch fails, the pipeline falls back to sample CSVs.</li>
+<li>Increase `lookback_days` if you want longer windows for drawdown calculations.</li>
+</ul>
+<p>---</p>
+<h2>Step 3 — Set macro regime (v4.1 manual)</h2>
+<pre><code>
+scoring:
+  macro_regime_hint: &quot;UNKNOWN&quot;  # CUTS | HIKES | STICKY | UNKNOWN
+</code></pre>
+<p>This is the integration point for later automation (v4.2).</p>
+<p>---</p>
+<h2>Step 4 — Tune weights (audit-first)</h2>
+<pre><code>
+scoring:
+  weights:
+    trend: 0.35
+    survival: 0.35
+    macro: 0.20
+    events: 0.10
+</code></pre>
+<p>Guidance:</p>
+<ul>
+<li>If you want “survival-first,” raise `survival` and lower `trend`.</li>
+<li>Keep `events` small until v4.3 adds real event logic.</li>
+</ul>
+<p>---</p>
+<h2>Step 5 — Regime bonus map</h2>
+<pre><code>
+scoring:
+  regime_bonus:
+    CUTS:   {TTD: 0.20, ENPH: 0.35}
+    HIKES:  {TTD: 0.35, ENPH: 0.05}
+    STICKY: {TTD: 0.30, ENPH: 0.10}
+    UNKNOWN:{TTD: 0.15, ENPH: 0.15}
+</code></pre>
+<p>Interpretation:</p>
+<ul>
+<li>ENPH gets more upside in <strong>CUTS</strong> (demand/financing sensitivity).</li>
+<li>TTD gets more resilience in <strong>HIKES/STICKY</strong>.</li>
+</ul>
+<p>---</p>
+<h2>Step 6 — Thresholds and alerts</h2>
+<pre><code>
+thresholds:
+  drawdown_breach: 0.45
+  pick_flip_margin: 0.10
+</code></pre>
+<ul>
+<li>`drawdown_breach`: triggers a drawdown alert if exceeded.</li>
+<li>`pick_flip_margin`: flags a flip candidate only if ENPH score exceeds TTD by this margin.</li>
+</ul>
+<p>---</p>
+<h2>Step 7 — Notifications (optional)</h2>
+<pre><code>
+notifications:
+  enabled: false
+  slack_webhook_url: &quot;&quot;
+</code></pre>
+<p>To enable Slack alerts:</p>
+<ol>
+<li>Paste your webhook URL.</li>
+<li>Set `enabled: true`.</li>
+<li>Run `bash scripts/run_daily.sh`.</li>
+</ol>
+<p>---</p>
+<h2>Troubleshooting</h2>
+<ul>
+<li>If you see “Missing latest prices…” run:</li>
+</ul>
+<p>- `python scripts/fetch_prices.py --config config/config.yaml`</p>
+<ul>
+<li>If report doesn’t change:</li>
+</ul>
+<p>- Delete `site/report.html` and rerun the pipeline.</p>
+    </div>
+    <div class="footer">Generated from Markdown. Edit the <code>.md</code> file and regenerate.</div>
+  </div>
+</body>
+</html>

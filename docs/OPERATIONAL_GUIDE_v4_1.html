@@ -1,114 +1,116 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Foundral Atlas v4.1 — Operational Guide</title>
-<style>
-:root{
-  --bg:#050a18;--panel:rgba(255,255,255,0.06);--line:rgba(255,255,255,0.12);
-  --text:rgba(255,255,255,0.92);--muted:rgba(255,255,255,0.65);--accent:#45b7ff;
-  --shadow:0 22px 60px rgba(0,0,0,0.38);--radius:18px;--radius2:14px;
-  --mono:ui-monospace, Menlo, Monaco, Consolas, monospace;--sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-}
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Operational Guide (Dev Runbook) — v4.1</title>
+  <style>
+:root{--bg:#0b1220;--card:rgba(15,27,51,.82);--text:#eaf0ff;--muted:#a9b6d5;--line:rgba(255,255,255,.12);
+--accent:#7dd3fc;--accent2:#a78bfa;}
 *{box-sizing:border-box}
-body{margin:0;font-family:var(--sans);color:var(--text);
-background:radial-gradient(1000px 600px at 15% 10%, rgba(69,183,255,0.18), transparent 60%),
-radial-gradient(900px 700px at 50% 90%, rgba(255,209,102,0.10), transparent 62%),var(--bg);}
-.wrap{max-width:980px;margin:0 auto;padding:18px 14px 56px}
-.hero{border:1px solid var(--line);border-radius:var(--radius);
-background:linear-gradient(135deg, rgba(69,183,255,0.18), rgba(255,255,255,0.05));
-box-shadow:var(--shadow);padding:16px}
-h1{margin:0 0 6px;font-size:20px}
-.sub{margin:0;color:var(--muted);font-size:13.6px;line-height:1.65}
-.section{margin-top:12px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);box-shadow:var(--shadow);overflow:hidden}
-.section header{padding:12px 14px;background:rgba(0,0,0,0.22);border-bottom:1px solid rgba(255,255,255,0.10);
-display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
-.section header h2{margin:0;font-size:14.8px}
-.section header span{font-size:12px;color:var(--muted)}
-.section .body{padding:14px;display:none}
-.section.open .body{display:block}
-pre{margin:10px 0 0;padding:12px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.10);border-radius:14px;overflow:auto;
-font-family:var(--mono);font-size:12.4px;line-height:1.55}
-a{color:inherit}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+background:radial-gradient(1200px 600px at 16% -10%, rgba(125,211,252,.22), transparent 60%),
+radial-gradient(900px 520px at 110% 12%, rgba(167,139,250,.18), transparent 55%), var(--bg);
+color:var(--text);line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 64px}
+.hero{border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg, rgba(125,211,252,.18), rgba(167,139,250,.14));
+padding:18px 16px;margin:10px 0 16px}
+.hero h1{margin:0 0 6px;font-size:1.55rem}
+.meta{color:var(--muted);font-size:.95rem}
+.card{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:16px;margin:14px 0}
+h2{margin:18px 0 8px;font-size:1.2rem}
+h3{margin:14px 0 6px;font-size:1.05rem}
+p{margin:10px 0;color:var(--text)}
+ul,ol{padding-left:22px}
+li{margin:6px 0}
+blockquote{margin:10px 0;padding:10px 12px;border-left:3px solid var(--accent);background:rgba(125,211,252,.08);
+border-radius:12px}
+code{background:rgba(0,0,0,.25);border:1px solid var(--line);padding:2px 6px;border-radius:8px}
+pre{background:rgba(0,0,0,.25);border:1px solid var(--line);padding:12px;border-radius:12px;overflow:auto}
+a{color:var(--accent)}
+hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+.footer{color:var(--muted);font-size:.9rem;margin-top:18px}
+.tableline{white-space:pre-wrap}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="hero">
-    <h1>Foundral Investment Atlas v4.1 — Operational Guide</h1>
-    <p class="sub">Mobile-first runbook: how to configure, run, validate, automate, and release with tags.</p>
-  </div>
-
-  <section class="section open">
-    <header><h2>1) Configure</h2><span>config.yaml</span></header>
-    <div class="body">
-      <pre>cp config/config.example.yaml config/config.yaml</pre>
-      <pre># Key fields
-data.use_live_fetch: true|false
-scoring.macro_regime_hint: CUTS|HIKES|STICKY|UNKNOWN
-scoring.weights: trend/survival/macro/events
-thresholds: drawdown_breach / pick_flip_margin
-notifications: enabled + slack_webhook_url</pre>
+  <div class="wrap">
+    <div class="hero">
+      <h1>Operational Guide (Dev Runbook) — v4.1</h1>
+      <div class="meta">Foundral • Magic HTML mirror • docs/OPERATIONAL_GUIDE_v4_1.md • 2026-01-07 17:13</div>
     </div>
-  </section>
-
-  <section class="section open">
-    <header><h2>2) Run locally</h2><span>macOS</span></header>
-    <div class="body">
-      <pre>python3 -m venv .venv
+    <div class="card">
+      <h1>Operational Guide (Dev Runbook) — v4.1</h1>
+<p>This runbook describes how to run, validate, and automate the Atlas pipeline.</p>
+<p>---</p>
+<h2>Local run (macOS)</h2>
+<pre><code>
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-bash scripts/run_daily.sh</pre>
-      <pre>open site/report.html</pre>
-    </div>
-  </section>
 
-  <section class="section open">
-    <header><h2>3) Validate outputs</h2><span>sanity checks</span></header>
-    <div class="body">
-      <pre>site/report.html
-data/derived/latest_signals.json
-data/logs/runs.jsonl
-site/history/report_*.html</pre>
-    </div>
-  </section>
-
-  <section class="section open">
-    <header><h2>4) Release: commit + tag + push</h2><span>Git</span></header>
-    <div class="body">
-      <pre>git add .
-git commit -m "v4.1: integration layer prototype (TTD vs ENPH)"
-
-git tag -a v4.1 -m "Foundral Investment Atlas v4.1"
+cp config/config.example.yaml config/config.yaml
+bash scripts/run_daily.sh
+open site/report.html
+</code></pre>
+<p>Validation checklist:</p>
+<ul>
+<li>`site/report.html` exists and has today’s timestamp in the header</li>
+<li>`data/derived/latest_signals.json` exists</li>
+<li>`data/logs/runs.jsonl` grew by one line</li>
+<li>`site/history/` contains a new archived report</li>
+</ul>
+<p>---</p>
+<h2>What to commit vs ignore</h2>
+<p>Commit:</p>
+<ul>
+<li>`scripts/`</li>
+<li>`docs/`</li>
+<li>`ops/`</li>
+<li>`site/report.html` (optional, but nice for GitHub Pages)</li>
+<li>`site/history/` (optional)</li>
+<li>`data/derived/latest_signals.json` (optional)</li>
+<li>`data/logs/runs.jsonl` (optional; can get large)</li>
+</ul>
+<p>Ignore:</p>
+<ul>
+<li>`config/config.yaml` (contains secrets)</li>
+</ul>
+<p>---</p>
+<h2>Recommended Git workflow (tagged releases)</h2>
+<h3>First-time repo setup</h3>
+<pre><code>
+git init
+git add .
+git commit -m &quot;v4.1: integration layer prototype (TTD vs ENPH)&quot;
+</code></pre>
+<h3>Tag</h3>
+<pre><code>
+git tag -a v4.1 -m &quot;Foundral Investment Atlas v4.1&quot;
+</code></pre>
+<h3>Add remote + push</h3>
+<pre><code>
+git remote add origin &lt;YOUR_GIT_URL&gt;
+git branch -M main
 git push -u origin main
-git push origin --tags</pre>
-      <p class="sub">If you haven't set a remote yet:</p>
-      <pre>git remote add origin &lt;YOUR_GIT_URL&gt;
-git branch -M main</pre>
+git push origin --tags
+</code></pre>
+<p>---</p>
+<h2>GitHub Actions (daily)</h2>
+<ul>
+<li>Copy `ops/github_actions_workflow.yml` into `.github/workflows/atlas.yml`</li>
+<li>Ensure `config/config.yaml` is created in the runner using GitHub Secrets (v4.2+), or keep `use_live_fetch=false` and run sample mode.</li>
+<li>For Slack webhook, store it as a secret and write it into config at runtime.</li>
+</ul>
+<p>---</p>
+<h2>Operational policy (strongly recommended)</h2>
+<ul>
+<li>Treat `docs/ATLAS_CANON_v3.md` as frozen truth.</li>
+<li>Any changes to scoring/invalidation must bump version (v4.2, v4.3, …).</li>
+<li>Keep `runs.jsonl` append-only to preserve auditability.</li>
+</ul>
     </div>
-  </section>
-
-  <section class="section">
-    <header><h2>5) Automate daily</h2><span>GitHub Actions</span></header>
-    <div class="body">
-      <pre># Put this file in:
-.github/workflows/atlas.yml
-
-# Start from:
-ops/github_actions_workflow.yml</pre>
-      <p class="sub">For secrets: keep config out of git; inject via GitHub Secrets in the workflow (v4.2+).</p>
-    </div>
-  </section>
-
-  <p class="sub" style="margin-top:12px;color:rgba(255,255,255,0.55)">
-    Educational only. Not financial advice.
-  </p>
-</div>
-<script>
-document.querySelectorAll(".section header").forEach(h=>{
-  h.addEventListener("click",()=>h.parentElement.classList.toggle("open"));
-});
-</script>
+    <div class="footer">Generated from Markdown. Edit the <code>.md</code> file and regenerate.</div>
+  </div>
 </body>
 </html>
